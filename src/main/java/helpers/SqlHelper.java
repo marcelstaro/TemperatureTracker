@@ -22,7 +22,7 @@ public class SqlHelper {
     private Statement st = null;
     private ResultSet rs = null;
     
-    private final String url = "jdbc:mysql://us-cdbr-iron-east-03.cleardb.net";//"jdbc:mysql://localhost:3306/temperatures";
+    private final String url = "jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/heroku_b5d7097a0e320e6";//"jdbc:mysql://localhost:3306/temperatures";
     private final String dbuser = "bc988fe6542bb9";//marcelstaro
     private final String dbpassword = "4e9d6dec";//pass
     
