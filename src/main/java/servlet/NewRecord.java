@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import helpers.SqlHelper;
+
 /**
  * Servlet implementation class NewRecord
  */
@@ -51,46 +53,19 @@ public class NewRecord extends HttpServlet {
 		Connection c = null;
 		PreparedStatement stmt = null;
 
-
-		if( (str_date!=null) && (temp!=null))
-		{
-			if( (str_date.trim().length()>0) && (temp.trim().length()>0)
-					&& (UserService.authenticate(username, password)==UserService.AUTH_SUCCESS) )
-			{
-
-				try {
-					Class.forName("org.sqlite.JDBC");
-					c = DriverManager.getConnection("jdbc:sqlite:"+UserService.URL);
-					c.setAutoCommit(false);
-
-					String sql = "INSERT INTO TEMPERATURE(DATE, TEMPERATURE_FARENHEIT, USERNAME) " +
-							"VALUES(?,?,?)";
-					stmt = c.prepareStatement(sql);			
-					stmt.setString(1, str_date);
-					stmt.setString(2, temp);
-					stmt.setString(3, username);
-					stmt.executeUpdate();		
-					c.commit();
-					output.println("success");					
-				} catch (Exception e) { e.printStackTrace(); }
-					
-				finally {
-					try { if (output != null) output.close();	} catch (Exception e) { e.printStackTrace(); }
-
-					try { if (stmt != null) stmt.close();	} catch (SQLException e) { e.printStackTrace(); }
-
-					try { if (c != null) c.close();	} catch (SQLException e) { e.printStackTrace(); }
-				}
-				
-			}
-			else 
-				output.println("failed: date is empty");
-		}
-		else
-			output.println("failed: date is null");
-
+		if (UserService.authenticate(username, password) != UserService.AUTH_SUCCESS) {
+			output.println("failed: User or password not valid.");
+		} else if((str_date == null) || (temp == null)) {
+				output.println("failed: date or temperature is null");
+			} else if((str_date.trim().length() <= 0) && (temp.trim().length() <= 0)) {
+				output.println("failed: date or temperature is empty");
+			} else {			
+					if (new SqlHelper().insertTemperature(str_date, temp, username)) {
+						output.println("success");	
+					}
+			} 
+		
 		try { if (output != null) output.close();	} catch (Exception e) { e.printStackTrace(); }
-
 	}
 
 }

@@ -7,9 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import helpers.SqlHelper;
 
 
 public class UserService {
@@ -17,7 +15,7 @@ public class UserService {
 
 	private static File databaseFile = new File( 
 			new File( System.getProperty( "catalina.base" ) ).getAbsoluteFile(),
-			"webapps/RaspberryPi/WEB-INF/TemperatureReadings.db"
+			"webapps/TemperatureTrackerLocal/WEB-INF/TemperatureReadings.db"
 			);
 
 	public static String URL=databaseFile.getAbsolutePath();	
@@ -82,37 +80,18 @@ public class UserService {
 
 		if( (username!=null) && (password!=null))
 		{
-			if( (username.trim().length()>0) && (password.trim().length()>0) ){
+			if( (username.trim().length() > 0) && (password.trim().length() > 0) ){
 
-				try {
-					Class.forName("org.sqlite.JDBC");
-					c = DriverManager.getConnection("jdbc:sqlite:"+UserService.URL);
-					c.setAutoCommit(false);
-
-					stmt = c.createStatement();
-					rs = stmt.executeQuery( "SELECT PASSWORD FROM USER WHERE USERNAME='"+username+"';" );
-
-					if(rs.next()){
-						if(rs.getString(1).equals(password)){
+				String retrievedPassword = new SqlHelper().getPasswordFromUser(username);
+				if (retrievedPassword == null) {
+					RESULT = AUTH_DOESNT_EXIST;
+				} else {
+						if(retrievedPassword.equals(password)){
 							RESULT= AUTH_SUCCESS;
-						}
-						else{
+						} else {
 							RESULT= AUTH_INCORRECT_PWD;
 						}
-					}
-					else{
-						RESULT= AUTH_DOESNT_EXIST;
-					}
-
-				} catch (Exception e) { e.printStackTrace(); }
-
-				finally {
-					try { if (rs != null) rs.close();	} catch (SQLException e) { e.printStackTrace(); }
-					
-					try { if (stmt != null) stmt.close();	} catch (SQLException e) { e.printStackTrace(); }
-							
-					try { if (c != null) c.close();	} catch (SQLException e) { e.printStackTrace(); }
-				}
+					} 
 			}
 		}					
 

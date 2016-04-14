@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import beans.Temperature;
+import helpers.SqlHelper;
 
 /**
  * Servlet implementation class RaspberryPi
@@ -39,7 +43,7 @@ public class RaspberryPi extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 *//*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ServletOutputStream output=response.getOutputStream();
@@ -48,6 +52,13 @@ public class RaspberryPi extends HttpServlet {
 				+ " (You can literally see the password in the request url string!!!)"
 				+ ", which is why we use post instead.");
 		output.close();
+	}*/
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath()).append(" Marcel");
+		
+		doPost(request, response);
 	}
 
 	/**
@@ -63,33 +74,19 @@ public class RaspberryPi extends HttpServlet {
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");	
 
+		
+		
+		if(UserService.authenticate(username, password)==UserService.AUTH_SUCCESS) {
 
-		Connection c = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+				ArrayList<Temperature> temperatures = new SqlHelper().getTemperaturesFromUser(username);
 
-		if(UserService.authenticate(username, password)==UserService.AUTH_SUCCESS){
+				JSONArray array = new JSONArray();
 
-			try {
-
-				Class.forName("org.sqlite.JDBC");
-				c = DriverManager.getConnection("jdbc:sqlite:"+UserService.URL);
-				c.setAutoCommit(false);
-
-				stmt = c.createStatement();
-				rs = stmt.executeQuery( "SELECT * FROM TEMPERATURE WHERE USERNAME='"+username+ "';" );
-
-				JSONArray array=new JSONArray();
-
-				while ( rs.next() ) {
-					int id = rs.getInt("id");
-					String  date = rs.getString("DATE");
-					String tempF=rs.getString("TEMPERATURE_FARENHEIT");
-
+				for (Temperature t : temperatures) {
 					JSONObject obj=new JSONObject();				
-					obj.put("id", id);
-					obj.put("date",date);
-					obj.put("temp",tempF);
+					obj.put("id", t.getId());
+					obj.put("date",t.getDate());
+					obj.put("temp",t.getTemperature());
 					array.add(obj);
 				}
 
@@ -98,16 +95,8 @@ public class RaspberryPi extends HttpServlet {
 				String jsonText = JSONValue.toJSONString(finalObj);
 
 				output.println(jsonText);
-			} catch (Exception e) { e.printStackTrace(); }
-
-			finally {
-				try { if (rs != null) rs.close();	} catch (SQLException e) { e.printStackTrace(); }
-
-				try { if (stmt != null) stmt.close();	} catch (SQLException e) { e.printStackTrace(); }
-
-				try { if (c != null) c.close();	} catch (SQLException e) { e.printStackTrace(); }
-			}
-		}
+				System.out.println(jsonText);
+			} 
 		
 		try { if (output != null) output.close();	} catch (Exception e) { e.printStackTrace(); }
 
