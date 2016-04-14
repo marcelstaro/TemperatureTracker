@@ -14,7 +14,7 @@ public class InsertTemperatures {
 	public void sendPost(String date, String temperature, String username, String password) throws Exception {
 
 		URL url = new URL("http://localhost:8080/TemperatureTrackerLocal/NewRecord");
-        Map<String,Object> params = new LinkedHashMap<String,Object>();
+        Map<String,Object> params = new LinkedHashMap<>();
         params.put("date", date);
         params.put("temp", temperature);
         params.put("username", username);
