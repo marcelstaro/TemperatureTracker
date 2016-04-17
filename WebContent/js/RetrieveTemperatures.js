@@ -8,7 +8,7 @@ $(document).ready(function(){
         },
         function(response,status){        	
         	if ((typeof response == 'string') && (response.indexOf("Failed") > -1)) {
-        		alert(data);
+        		alert(response);
         	} else {
         		JSONToCSVConvertor(response.temperature,"Readings", true);
         	}
