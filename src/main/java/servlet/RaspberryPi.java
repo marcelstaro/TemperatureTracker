@@ -2,14 +2,6 @@ package servlet;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -67,22 +59,23 @@ public class RaspberryPi extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.reset();
 		response.resetBuffer();
-		response.setContentType("application/json");
 
 		ServletOutputStream output=response.getOutputStream();
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");	
 
 		
+		int auth_res = UserService.authenticate(username, password);
 		
-		if(UserService.authenticate(username, password)==UserService.AUTH_SUCCESS) {
+		if(auth_res == UserService.AUTH_SUCCESS) {
 
+				response.setContentType("application/json");
 				ArrayList<Temperature> temperatures = new SqlHelper().getTemperaturesFromUser(username);
 
 				JSONArray array = new JSONArray();
 
 				for (Temperature t : temperatures) {
-					JSONObject obj=new JSONObject();				
+					JSONObject obj = new JSONObject();				
 					obj.put("id", t.getId());
 					obj.put("date",t.getDate());
 					obj.put("temp",t.getTemperature());
@@ -94,8 +87,9 @@ public class RaspberryPi extends HttpServlet {
 				String jsonText = JSONValue.toJSONString(finalObj);
 
 				output.println(jsonText);
-				System.out.println(jsonText);
-			} 
+			} else {//if (auth_res == UserService.AUTH_INCORRECT_PWD || auth_res == UserService.AUTH_DOESNT_EXIST) {
+				output.println("Failed: User or password not valid.");
+			}
 		
 		try { if (output != null) output.close();	} catch (Exception e) { e.printStackTrace(); }
 
