@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     $("button").click(function(){
-        $.post("http://localhost:8080/TemperatureTrackerLocal/Temperature.json",
+        $.post("https://temperature-tracker.herokuapp.com//Temperature.json",
         {
           username: $("#username").val(),
           password: $("#password").val()
