@@ -2,15 +2,49 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="stylesheets/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+      
 <script src="js/RetrieveTemperatures.js"></script>
+
 </head>
 <body>
+<!--  
+<nav class="navbar navbar-default pull-right fix-nav">
+    <ul class="nav navbar-nav ">
+        <li><a href="/#/login">Log In</a></li>
+        <li><a href="/#/register">Register</a></li>
+    </ul>
+</nav>
+-->
+<div class="container">
 
-<button>Get Temperatures</button>
-
-<p>Result:</p>
-<div id="result"/>
-
+	<div class="page-header">
+		<h1><a href="#">Temperature Tracker</a></h1>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<div id="login">
+				<h1>Log In</h1>
+				<div class="form-group">
+					<input id="username" type="text" class="form-control" placeholder="Username"> 
+				</div>
+				<div class="form-group">	
+					<input id="password" type="password" class="form-control" placeholder="Password">
+				</div>	
+				<button id="login-btn" class="btn btn-primary">Retrieve Readings</button>
+			</div>
+	    </div>
+	    
+		<div class="col-xs-6">
+			<h2>Result:</h2>
+			<div id="result"/>
+		</div>		
+	</div>
+</div>
+	
 </body>
 </html>
