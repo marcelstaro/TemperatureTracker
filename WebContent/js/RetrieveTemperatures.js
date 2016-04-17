@@ -6,21 +6,11 @@ $(document).ready(function(){
           username: $("#username").val(),
           password: $("#password").val()
         },
-        function(data,status){
-        	/*
-        	$.each(data.temperature, function(index, element) {
-        		$("#result").append('<p>');
-        		$("#result").append('</br>id test: ' + element.id);
-        		$("#result").append('</br>Temperature: ' + element.temp);
-        		$("#result").append('</br>Date: ' + element.date);
-        		$("#result").append('</p>');
-            });   
-        	*/
-        	
-        	if ((typeof data == 'string') && (data.indexOf("Failed") > -1)) {
+        function(response,status){        	
+        	if ((typeof response == 'string') && (response.indexOf("Failed") > -1)) {
         		alert(data);
         	} else {
-        		JSONToCSVConvertor(data.temperature,"Temperatures", true);
+        		JSONToCSVConvertor(response.temperature,"Readings", true);
         	}
         });
     });
@@ -74,7 +64,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     }   
     
     //Generate a file name
-    var fileName = "Report_Readings";
+    var fileName = "Report_";
     //this will remove the blank-spaces from the title and replace it with an underscore
     fileName += ReportTitle.replace(/ /g,"_");   
     
