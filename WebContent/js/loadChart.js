@@ -15,7 +15,7 @@ $(document).ready(function(){
 		JSONToCSVConvertor(readings,"Readings", true); 
 	});
 	
-	$('#logout-btn').click(function(){
+	$('#back-btn').click(function(){
 		window.location.replace('index.html');
 	});
 	
