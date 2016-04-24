@@ -1,60 +1,72 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="stylesheets/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
-      
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="js/jquery.canvasjs.min.js"></script>
 <script src="js/RetrieveTemperatures.js"></script>
 
 </head>
 <body>
-<!--  
+	<!--  
 <nav class="navbar navbar-default pull-right fix-nav">
     <ul class="nav navbar-nav ">
         <li><a href="/#/login">Log In</a></li>
         <li><a href="/#/register">Register</a></li>
     </ul>
 </nav>
--->
-<div class="container">
+-->	
+	<div class="container">	
+		<div id="header" class="page-header"></div>
 
-	<div class="page-header">
-		<h1><a href="#">Temperature Tracker</a></h1>
-	</div>
-	<div class="row">
-		<div class="col-xs-6">
+		<div id="content" class="row">
 			<div id="login">
-				<h1>Log In</h1>
-				<div class="form-group">
-					<input id="username" type="text" class="form-control" value="marcel" placeholder="username"> 
+				<div class="col-xs-6">
+					<h1>Log In</h1>
+					<div class="form-group">
+						<input id="username" type="text" class="form-control"
+							value="marcel" placeholder="username">
+					</div>
+					<div class="form-group">
+						<input id="password" type="password" class="form-control"
+							value="mypass0123" placeholder="password">
+					</div>
+					<button id="login-btn" class="btn btn-primary">Retrieve
+						Readings</button>
 				</div>
-				<div class="form-group">	
-					<input id="password" type="password" class="form-control" value="mypass0123" placeholder="password">
-				</div>	
-				<button id="login-btn" class="btn btn-primary">Retrieve Readings</button>
+
+				<div class="col-xs-6">
+					<h2>About</h2>
+					<div class="jumbotron">
+						<div class="container">
+							<p>This Web Application retrieves temperature readings
+								currently stored in the database and converts them to Json.</p>
+							<p>The data can then be viewed using the android app or
+								downloaded in .csv</p>
+							<p>Authors:</p>
+							<ul>
+								<li><a
+									href="https://www.linkedin.com/in/marcel-starosielsky-19444980?trk=pub-pbmap"
+									target="_blank">Marcel Starosielsky</a></li>
+								<li>Amir Atabekov</li>
+							</ul>
+						</div>
+					</div>
+				</div>
 			</div>
-	    </div>
-	    
-		<div class="col-xs-6">
-			<h2>About</h2>
-			<div class="jumbotron">			
-	            <div class="container">
-					<p>This Web Application retrieves temperature readings currently stored in the database and converts them to Json.</p>
-					<p>The data can then be viewed using the android app or downloaded in .csv</p>	
-					<p>Authors:</p>
-	               	<ul>
-	                   <li><a href="https://www.linkedin.com/in/marcel-starosielsky-19444980?trk=pub-pbmap" target="_blank">Marcel Starosielsky</a></li>
-	               	   <li>Amir Atabekov</li>	
-	               	</ul>			
-				</div>		
-			</div>
-			
-		</div>
+		</div>	
+		
 	</div>
-	
+
+	<div id="footer"></div>
 </body>
 </html>
